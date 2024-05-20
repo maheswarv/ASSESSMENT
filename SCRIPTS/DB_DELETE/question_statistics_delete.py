@@ -1,0 +1,35 @@
+import datetime
+from SCRIPTS.COMMON.dbconnection import *
+
+
+class DeleteQuestionStatistics:
+
+    def __init__(self):
+        print(datetime.datetime.now())
+
+    @staticmethod
+    def delete_question_statistics():
+        db_connection = ams_db_connection()
+        cursor = db_connection.cursor()
+        question_statistics = "delete from question_statisticss where id in " \
+                              "(select questionstatistics_id from questions " \
+                              "where id in (132101,132097,132107,132121,132123,132133,132135,132127,132181,132157,132149, 132391,132399,132401,132395,132397,132405,132407,132403,132409,132411,132413) and tenant_id in (1,1787));"
+        cursor.execute(question_statistics)
+        db_connection.commit()
+
+        tuser_results = "update test_results set is_statistics_completed = 0 " \
+                        "where question_id in (132101,132097,132107,132121,132123,132133,132135,132127,132181,132157,132149,132391,132399,132401,132395,132397,132405,132407,132403,132409,132411,132413) and question_tenant_id in (1,1787);"
+        cursor.execute(tuser_results)
+        db_connection.commit()
+
+        questions = "update questions set questionstatistics_id=NULL " \
+                    "where id in (132101,132097,132107,132121,132123,132133,132135,132127,132181,132157,132149,132391,132399,132401,132395,132397,132405,132407,132403,132409,132411,132413) and tenant_id in (1,1787);"
+
+        cursor.execute(questions)
+        db_connection.commit()
+        db_connection.close()
+
+
+del_data = DeleteQuestionStatistics()
+del_data.delete_question_statistics()
+print(datetime.datetime.now())
