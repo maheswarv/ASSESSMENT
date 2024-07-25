@@ -9,7 +9,7 @@ class OnlineAssessment:
 
     def __init__(self):
         self.url = amsin_at_assessment_url
-        self.path = r"F:\qa_automation\chromedriver.exe"
+        self.path = chrome_driver_path
 
     def mcq_assessment(self, current_excel_data):
         self.browser = assess_ui_common_obj.initiate_browser(self.url, self.path)

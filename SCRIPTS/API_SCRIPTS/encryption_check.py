@@ -50,7 +50,7 @@ class SecurityCheck:
             header_row = header_row + 1
 
     def validate_encrypeted_data(self, db_data, row, col):
-        # this works according to DB query if we chnage DB query then Column will get affect,
+        # this works according to DB query if we change DB query then Column will get affect,
         # so append any field if you want.
         for db_data_column_wise in db_data:
             col = col + 1
@@ -75,13 +75,8 @@ class SecurityCheck:
                                 "Email1": excel_data.get('emailId'), "CurrencyType": None,
                                 "USN": excel_data.get('usn'), "AadhaarNo": str(int(excel_data.get('aadharNumber')))},
             "SourceDetails": {"SourceId": "3638"}}
-
-        print(create_candidate_req)
-
         cid = crpo_common_obj.create_candidate_v2(self.crpo_headers, create_candidate_req)
-        # cid = "1334807"
         candidate_details = crpo_common_obj.get_candidate_by_id(self.crpo_headers, cid)
-        print(candidate_details)
         request =  request = {"questionType": 7, "difficultyLevel": 1, "subCategoryId": 3928, "categoryId": 3922,
                    "htmlString": excel_data.get('questionQuestionString'), "questionStr": excel_data.get('questionQuestionString'),
                    "subTopicId": None, "authorId": 14390, "isRevised": False, "notes": "Notes1",

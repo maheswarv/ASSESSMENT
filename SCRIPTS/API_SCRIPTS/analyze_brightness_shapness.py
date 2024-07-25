@@ -26,11 +26,13 @@ class AllowedFileExtensions:
         confidence = None
         write_excel_object.current_status = "Pass"
         write_excel_object.current_status_color = write_excel_object.green_color
+        print('Two')
 
         try:
             file_path = input_path_brightness_check_files % (excel_input.get('filePathName'))
             file_name = excel_input.get('fileName')
             print(file_name)
+            print(file_path)
             resp = assessment_common_obj.analyze_image(token, file_name, file_path)
             if resp.get("Status") == 'OK':
                 context_id = resp.get("ContextId")
@@ -86,5 +88,6 @@ login_token = crpo_common_obj.login_to_crpo(cred_crpo_admin.get('user'), cred_cr
 excel_read_obj.excel_read(input_path_brightness_check, 0)
 excel_data = excel_read_obj.details
 for data in excel_data:
+    print("One")
     brightness_check.upload_files(login_token, data)
 write_excel_object.write_overall_status(testcases_count=40)

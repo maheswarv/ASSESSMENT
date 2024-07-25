@@ -1,15 +1,17 @@
 import requests
 import json
 import time
+from SCRIPTS.COMMON.environment import *
 
 
 class CrpoCommon:
-    domain = 'https://amsin.hirepro.in'
-    pearson_domain = 'https://pearsonstg.hirepro.in'
-    eu_domain = 'https://euamsin.hirepro.in'
+    domain = env_obj.domain
+    pearson_domain = env_obj.pearson_domain
+    eu_domain = env_obj.eu_domain
 
     @staticmethod
     def login_to_crpo(login_name, password, tenant):
+        print(crpo_common_obj.domain)
         header = {"content-type": "application/json"}
         data = {"LoginName": login_name, "Password": password, "TenantAlias": tenant, "UserName": login_name}
         response = requests.post(crpo_common_obj.domain + "/py/common/user/login_user/", headers=header,
@@ -127,7 +129,7 @@ class CrpoCommon:
     def save_apppreferences(token, content, id, type):
         data = {"AppPreference": {"Id": id, "Content": content, "Type": type}, "IsTenantGlobal": True}
 
-        response = requests.post("https://amsin.hirepro.in/py/common/common_app_utils/save_app_preferences/",
+        response = requests.post(crpo_common_obj.domain + "/py/common/common_app_utils/save_app_preferences/",
                                  headers=token, data=json.dumps(data, default=str), verify=False)
         return response.json()
 
@@ -201,7 +203,6 @@ class CrpoCommon:
         response = requests.post(crpo_common_obj.domain + "/py/rpo/create_candidate/", headers=token,
                                  data=json.dumps(request), verify=False)
         response_data = response.json()
-        print(response_data)
         candidate_id = response_data.get('CandidateId')
         if response_data.get('status') == 'OK':
             print("candidate created in crpo")
@@ -412,7 +413,6 @@ class CrpoCommon:
         resp = {'app_node': app_node, 'get_all_resp': get_all_resp}
         return resp
 
-
     @staticmethod
     def update_role(request, token):
         response = requests.post(crpo_common_obj.domain + "/py/common/role/update/",
@@ -422,7 +422,7 @@ class CrpoCommon:
 
     @staticmethod
     def get_app_preference(token):
-        request = {"Type":"crpo.dashboard.config","IsTenantGlobal":True}
+        request = {"Type": "crpo.dashboard.config", "IsTenantGlobal": True}
         response = requests.post(crpo_common_obj.domain + "/py/common/common_app_utils/api/v1/getAppPreference/",
                                  headers=token, data=json.dumps(request, default=str), verify=False)
         app_preference = response.json()
@@ -436,5 +436,6 @@ class CrpoCommon:
                                  headers=token, data=json.dumps(request, default=str), verify=False)
         auth_user_v2 = response.json()
         return auth_user_v2
+
 
 crpo_common_obj = CrpoCommon()
