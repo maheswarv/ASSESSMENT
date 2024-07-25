@@ -60,7 +60,7 @@ class HireproChainingOfTwoTests:
         #
         # self.common_path = path
         # print(self.common_path)
-
+        print(chrome_driver_path)
         self.browser = assess_ui_common_obj.initiate_browser(amsin_automation_assessment_url, chrome_driver_path)
         login_details = assess_ui_common_obj.ui_login_to_test(current_excel_data.get('loginName'),
                                                               (current_excel_data.get('password')))

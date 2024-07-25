@@ -3,13 +3,14 @@ from SCRIPTS.COMMON.writeExcel import write_excel_object
 from SCRIPTS.UI_COMMON.assessment_ui_common_v2 import *
 from SCRIPTS.CRPO_COMMON.credentials import *
 from SCRIPTS.UI_SCRIPTS.assessment_data_verification import *
+from SCRIPTS.COMMON.io_path import *
 
 
 class CocubesAutomation:
 
     def __init__(self):
         self.url = "https://qaassesscocubes.hirepro.in/hprotest/#/assess/login/eyJhbGlhcyI6ImF1dG9tYXRpb24ifQ=="
-        self.path = r"F:\qa_automation\chromedriver.exe"
+        self.path = chrome_driver_path
         write_excel_object.save_result(output_path_ui_cocubes)
         # 0th Row Header
         header = ['Cocubes']

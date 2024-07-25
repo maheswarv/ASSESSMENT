@@ -1,21 +1,22 @@
 import requests
 import json
-# from ASSESSMENT_COMMON import submit_test_data
 from SCRIPTS.ASSESSMENT_COMMON import submit_test_data
+from SCRIPTS.COMMON.environment import *
 import time
 
 
 class AssessmentCommon:
-    common_domain = 'https://amsin'
-
-    def __init__(self):
-        pass
+    main_domain = env_obj.domain
+    pearson_domain = env_obj.pearson_domain
+    eu_domain = env_obj.eu_domain
+    cocubes_domain = env_obj.cocubes_domain
+    talentlens_domian = env_obj.talentlens_domain
 
     @staticmethod
     def login_to_test(login_name, password, tenant):
         header = {"content-type": "application/json", "X-APPLMA": "true", "APP-NAME": "onlineassessment"}
         data = {"LoginName": login_name, "Password": password, "TenantAlias": tenant}
-        response = requests.post("https://amsin.hirepro.in/py/assessment/htmltest/api/v2/login_to_test/",
+        response = requests.post(assessment_common_obj.main_domain + "/py/assessment/htmltest/api/v2/login_to_test/",
                                  headers=header,
                                  data=json.dumps(data), verify=False)
         print("Is Server by ECS - Login to test", response.headers.get('X-ServedByEcs'))
@@ -27,16 +28,15 @@ class AssessmentCommon:
     def decide_domain(self, type_of_test):
         print(type_of_test)
         if type_of_test == 'HP':
-            domain = assessment_common_obj.common_domain + ".hirepro.in/py/assessment/"
+            domain = assessment_common_obj.main_domain + "/py/assessment/"
         elif type_of_test == 'Cocubes':
-            domain = assessment_common_obj.common_domain + ".hirepro.in/py/assessment/"
+            domain = assessment_common_obj.cocubes_domain + "/py/assessment/"
         elif type_of_test == 'TALENTLENS':
-            domain = "https://talentlensstg.hirepro.in/py/assessment/"
+            domain = assessment_common_obj.talentlens_domian + "/py/assessment/"
         elif type_of_test == 'VET':
-            domain = "https://pearsonstg.hirepro.in/py/assessment/"
+            domain = assessment_common_obj.pearson_domain + "/py/assessment/"
         else:
-            domain = assessment_common_obj.common_domain + ".hirepro.in/py/assessment/"
-
+            domain = assessment_common_obj.main_domain + "/py/assessment/"
         return domain
 
     @staticmethod
@@ -132,13 +132,13 @@ class AssessmentCommon:
         print(content)
         # AUTOMATION
         if tenant == 'AUTOMATION':
-            response = requests.post(assessment_common_obj.common_domain +
-                                     ".hirepro.in/py/assessment/assessmentvendor/api/v1/vcb/versant/?tn=76EF28AF-6DB5-11EA-8197-0262BDD19558",
+            response = requests.post(assessment_common_obj.pearson_domain +
+                                     "/py/assessment/assessmentvendor/api/v1/vcb/versant/?tn=76EF28AF-6DB5-11EA-8197-0262BDD19558",
                                      headers={"Content-Type": "application/xml"}, data=content)
 
         elif tenant == 'AT':
-            response = requests.post(assessment_common_obj.common_domain +
-                                     ".hirepro.in/py/assessment/assessmentvendor/api/v1/vcb/versant/?tn=EE596328-A963-11EA-9A76-0262BDD19558",
+            response = requests.post(assessment_common_obj.pearson_domain +
+                                     "/py/assessment/assessmentvendor/api/v1/vcb/versant/?tn=EE596328-A963-11EA-9A76-0262BDD19558",
                                      headers={"Content-Type": "application/xml"}, data=content)
         else:
             print("This is Pearson Callbacks please specify the tenant")
@@ -174,7 +174,7 @@ class AssessmentCommon:
         # print(data)
         while status != 'SUCCESS':
             response = requests.post(
-                assessment_common_obj.common_domain + ".hirepro.in/py/crpo/api/v1/getStatusOfAsyncAPI",
+                assessment_common_obj.main_domain + "/py/crpo/api/v1/getStatusOfAsyncAPI",
                 headers=token,
                 data=json.dumps(data, default=str), verify=False)
             print("Is Server by ECS - assess - job status", response.headers.get('X-ServedByEcs'))
@@ -273,7 +273,8 @@ class AssessmentCommon:
             if not test_type:
                 test_type = 'HP'
             are_you_able_to_login = 'Yes'
-            login_token = {'X-AUTH-TOKEN': login_response.get("Token"), "X-APPLMA": "true", "APP-NAME": "onlineassessment"}
+            login_token = {'X-AUTH-TOKEN': login_response.get("Token"), "X-APPLMA": "true",
+                           "APP-NAME": "onlineassessment"}
             test_user_infos = {'nextTestID': login_response.get("TestId"),
                                'nextTestName': login_response.get("TestName"),
                                'nextTestCandidateId': login_response.get("CandidateId"),
@@ -311,13 +312,15 @@ class AssessmentCommon:
         context_id = None
         next_test_info = None
         # url = domain + 'testuser/api/v1/initiate_automation/'
-        url = assessment_common_obj.common_domain + 'testuser/api/v2/initiate_automation/'
+        # url = assessment_common_obj.main_domain + 'testuser/api/v2/initiate_automation/'
         token.pop('content-type', None)
         token.pop('X-APPLMA', None)
         request = {'file': (file_name, open(file_path, 'rb'))}
         token.update({'x-guid': file_name + '12_20_2021_5'})
-        # print(token.get('x-guid'))
-        url = assessment_common_obj.common_domain + '.hirepro.in/py/common/face_comparison/v2/analyze_image/true/false/false'
+        print(token.get('x-guid'))
+        url = assessment_common_obj.main_domain + '/py/common/face_comparison/v2/analyze_image/true/false/false'
+        print(url)
+        print(request)
         api_request = requests.post(url, headers=token, files=request, verify=False)
         print("Is Server by ECS - analyze image", api_request.headers.get('X-ServedByEcs'))
         # print(api_request.headers.get('X-GUID'))
@@ -329,7 +332,7 @@ class AssessmentCommon:
     def code_compiler(token, request):
         json_resp = {}
         response = requests.post(
-            assessment_common_obj.common_domain + ".hirepro.in/py/assessment/htmltest/api/v1/code-compiler/",
+            assessment_common_obj.main_domain + "/py/assessment/htmltest/api/v1/code-compiler/",
             headers=token,
             data=json.dumps(request, default=str), verify=False)
         print(response)
@@ -346,7 +349,7 @@ class AssessmentCommon:
             while status != 'SUCCESS':
                 counter += 1
                 response = requests.post(
-                    assessment_common_obj.common_domain + ".hirepro.in/py/assessment/htmltest/api/v1/code-compiler-get-result/",
+                    assessment_common_obj.main_domain + "/py/assessment/htmltest/api/v1/code-compiler-get-result/",
                     headers=token,
                     data=json.dumps(request, default=str), verify=False)
                 print("Is Server by ECS - Code compiler Result", response.headers.get('X-ServedByEcs'))

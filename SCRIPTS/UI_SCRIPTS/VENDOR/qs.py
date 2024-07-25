@@ -4,13 +4,14 @@ from SCRIPTS.UI_COMMON.assessment_ui_common_v2 import *
 from SCRIPTS.CRPO_COMMON.credentials import *
 import time
 from SCRIPTS.UI_SCRIPTS.assessment_data_verification import *
+from SCRIPTS.COMMON.io_path import *
 
 
 class VersantQuickScreener:
 
     def __init__(self):
         self.url = "https://pearsonstg.hirepro.in/assessment/#/assess/login/eyJhbGlhcyI6ImF1dG9tYXRpb24ifQ%3D%3D"
-        self.path = r"F:\qa_automation\chromedriver.exe"
+        self.path = chrome_driver_path
         write_excel_object.save_result(output_path_ui_vet_qs)
         # 0th Row Header
         header = ['VET Quick Screener']
