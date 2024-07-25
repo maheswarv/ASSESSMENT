@@ -1,12 +1,9 @@
 import xlsxwriter
-import datetime
 from SCRIPTS.COMMON.read_excel import *
 from SCRIPTS.ASSESSMENT_COMMON.assessment_common import *
 from SCRIPTS.CRPO_COMMON.credentials import *
 from SCRIPTS.CRPO_COMMON.crpo_common import *
 from SCRIPTS.COMMON.io_path import *
-# from second_login_assessment_data import *
-# from crpo_common import *
 import time
 
 
@@ -19,7 +16,6 @@ class ChainingOfTwoTests:
         #     'F:\\automation\\PythonWorkingScripts_Output'
         #     '\\Assessment\\Chaining_Automation - ' + self.started + '.xls')
         self.write_excel = xlsxwriter.Workbook(output_path_2tests_chaining + self.started + '.xls')
-
         self.ws = self.write_excel.add_worksheet()
         self.black_color = self.write_excel.add_format({'font_color': 'black', 'font_size': 9})
         self.red_color = self.write_excel.add_format({'font_color': 'red', 'font_size': 9})
@@ -170,9 +166,6 @@ class ChainingOfTwoTests:
 
 
 chaining_obj = ChainingOfTwoTests()
-# input_file_path = 'F:\\automation\\PythonWorkingScripts_InputData\\Assessment\\chaining\\2ndlogincase.xls'
-# input_file_path = 'C:\\Users\\User\\Desktop\\Automation\\PythonWorkingScripts_InputData\\Assessment\\chaining\\hp_tl.xls'
-
 excel_read_obj.excel_read(input_path_2tests_chaining, 0)
 excel_data = excel_read_obj.details
 crpo_headers = crpo_common_obj.login_to_crpo(cred_crpo_admin.get('user'), cred_crpo_admin.get('password'),
