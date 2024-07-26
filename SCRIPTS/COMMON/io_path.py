@@ -25,7 +25,6 @@ started = started.strftime("%d-%m-%Y")
 
 # input paths
 input_path_allowed_extension = input_common_dir + r'\allowed_extensions\allowed_extensions_inputfile.xls'
-print(input_path_allowed_extension)
 input_path_suspicious_list = input_common_dir + '\MURALITEAM\sep8.xls'
 input_path_allowed_extension_files = input_common_dir + r'\allowed_extensions\%s'
 input_path_applicant_report = input_common_dir + r'\Assessment\applicant_report\applicantreport.xlsx'
@@ -45,6 +44,9 @@ input_path_brightness_check_files = input_common_dir + r'\Assessment\brightnessc
 input_coding_compiler = input_common_dir + r'\Assessment\coding\codingcompiler.xls'
 input_question_statistics = input_common_dir + r'\Assessment\question_statistics_for_questions.xls'
 input_question_statistics_tests = input_common_dir + r'\Assessment\question_statistics_for_tests.xls'
+input_path_response_encryption = input_common_dir + r'\Security\response_encryption.xls'
+input_path_xss_encoding = input_common_dir + r'\Security\xss_char_encoding.xls'
+input_path_rate_control = input_common_dir + r'\Security\ratecontrol.xls'
 # input_question_statistics_hirepro_cron = input_common_dir + 'Assessment\\question_statistics_new_cron_1.xls'
 
 input_path_microsite_create_case = input_common_dir + r'\Microsite\GenericExcelTest.xls'
@@ -103,6 +105,9 @@ output_question_statistics = output_common_dir + r'\Assessment\API_qn_statisctis
 output_question_statistics_tests = output_common_dir + r'\Assessment\API_qn_statisctis_tests'
 output_question_statistics_new_cron = output_common_dir + r'\Assessment\API_qn_statisctis_new_cron'
 output_question_statistics_tests_hp_cron = output_common_dir + r'\Assessment\API_hp_qn_statisctis_tests'
+output_path_response_encryption = output_common_dir + r'\SECURITY\\response_encryption.xls'
+output_path_xss = output_common_dir + r'\SECURITY\\xss_char_encoding'
+output_path_rate_control = output_common_dir + r'\SECURITY\\rate_control'
 
 # Interview
 output_interview_proctor_evaluation = output_common_dir + r'\interview\interview_proctoring_eval'

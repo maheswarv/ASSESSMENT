@@ -28,15 +28,15 @@ class AssessmentCommon:
     def decide_domain(self, type_of_test):
         print(type_of_test)
         if type_of_test == 'HP':
-            domain = assessment_common_obj.main_domain + "/py/assessment/"
+            domain = assessment_common_obj.main_domain
         elif type_of_test == 'Cocubes':
-            domain = assessment_common_obj.cocubes_domain + "/py/assessment/"
+            domain = assessment_common_obj.cocubes_domain
         elif type_of_test == 'TALENTLENS':
-            domain = assessment_common_obj.talentlens_domian + "/py/assessment/"
+            domain = assessment_common_obj.talentlens_domian
         elif type_of_test == 'VET':
-            domain = assessment_common_obj.pearson_domain + "/py/assessment/"
+            domain = assessment_common_obj.pearson_domain
         else:
-            domain = assessment_common_obj.main_domain + "/py/assessment/"
+            domain = assessment_common_obj.main_domain
         return domain
 
     @staticmethod
@@ -44,7 +44,7 @@ class AssessmentCommon:
         print(login_name, password, domain)
         header = {"content-type": "application/json", "APP-NAME": "onlineassessment", "X-APPLMA": "true"}
         data = {"LoginName": login_name, "Password": password, "TenantAlias": tenant}
-        login_url = domain + 'htmltest/api/v2/login_to_test/'
+        login_url = domain + '/py/assessment/htmltest/api/v2/login_to_test/'
         response = requests.post(login_url, headers=header, data=json.dumps(data), verify=False)
         print("Is Server by ECS - Loginto test v2", response.headers.get('X-ServedByEcs'))
         login_response = response.json()
@@ -81,7 +81,7 @@ class AssessmentCommon:
     @staticmethod
     def submit_test_result(assessment_token, domain, submit_test_request):
         print(assessment_token)
-        url = domain + 'htmltest/api/v1/finalSubmitTestResult/'
+        url = domain + '/py/assessment/htmltest/api/v1/finalSubmitTestResult/'
         data1 = submit_test_data.alldata.get(str(submit_test_request))
         response = requests.post(url,
                                  headers=assessment_token,
@@ -237,7 +237,7 @@ class AssessmentCommon:
         header = {"content-type": "application/json", "APP-NAME": "onlineassessment", "X-APPLMA": "true"}
         data = {"loginName": login_name, "password": password, "tenantAlias": tenant,
                 "debugTimeStamp": "2020-12-02T13:32:30.749Z"}
-        login_url = domain + 'htmltest/api/v1/test-user-next_test/'
+        login_url = domain + '/py/assessment/htmltest/api/v1/test-user-next_test/'
         response = requests.post(login_url, headers=header, data=json.dumps(data), verify=False)
         print("Is Server by ECS - next test link for 2nd login", response.headers.get('X-ServedByEcs'))
         second_login_response = response.json()
@@ -262,7 +262,7 @@ class AssessmentCommon:
         print(login_name, password, domain)
         header = {"content-type": "application/json", "X-APPLMA": "true"}
         data = {"LoginName": login_name, "Password": password, "TenantAlias": tenant}
-        login_url = domain + 'htmltest/api/v2/login_to_test/'
+        login_url = domain + '/py/assessment/htmltest/api/v2/login_to_test/'
         response = requests.post(login_url, headers=header, data=json.dumps(data), verify=False)
         print("Is Server by ECS - LogintoTest V3", response.headers.get('X-ServedByEcs'))
         login_response = response.json()
@@ -361,6 +361,16 @@ class AssessmentCommon:
         else:
             print("TimedOut")
         return compilation_results
+
+    @staticmethod
+    def get_test_basic_info(token):
+        request = {}
+        response = requests.post(
+            assessment_common_obj.main_domain + "/py/assessment/htmltest/api/v1/get-test-basic-info/",
+            headers=token,
+            data=json.dumps(request, default=str), verify=False)
+        resp_dict = json.loads(response.content)
+        return resp_dict
 
 
 assessment_common_obj = AssessmentCommon()
